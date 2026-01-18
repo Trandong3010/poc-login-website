@@ -7,52 +7,49 @@ namespace PocLoginWebsite.Infrastructure.Adapters;
 /// Playwright implementation of IElementPort.
 /// Handles element-level interactions using Playwright locators.
 /// </summary>
-public class PlaywrightElementAdapter : IElementPort
+public class PlaywrightElementAdapter(ILocator locator) : IElementPort
 {
-    private readonly ILocator _locator;
-
-    public PlaywrightElementAdapter(ILocator locator)
-    {
-        _locator = locator;
-    }
-
     public async Task ClickAsync(CancellationToken cancellationToken = default)
     {
-        await _locator.ClickAsync();
+        await locator.ClickAsync();
     }
 
     public async Task FillAsync(string text, CancellationToken cancellationToken = default)
     {
-        await _locator.FillAsync(text);
+        await locator.FillAsync(text);
     }
 
     public async Task<string> GetTextAsync(CancellationToken cancellationToken = default)
     {
-        var text = await _locator.TextContentAsync();
+        var text = await locator.TextContentAsync();
         return text ?? string.Empty;
     }
 
-    public async Task<string?> GetAttributeAsync(string attributeName, CancellationToken cancellationToken = default)
+    public async Task<string?> GetAttributeAsync(
+        string attributeName,
+        CancellationToken cancellationToken = default
+    )
     {
-        return await _locator.GetAttributeAsync(attributeName);
+        return await locator.GetAttributeAsync(attributeName);
     }
 
     public async Task<bool> IsVisibleAsync(CancellationToken cancellationToken = default)
     {
-        return await _locator.IsVisibleAsync();
+        return await locator.IsVisibleAsync();
     }
 
     public async Task<bool> IsEnabledAsync(CancellationToken cancellationToken = default)
     {
-        return await _locator.IsEnabledAsync();
+        return await locator.IsEnabledAsync();
     }
 
-    public async Task WaitForVisibleAsync(int timeoutMs = 30000, CancellationToken cancellationToken = default)
+    public async Task WaitForVisibleAsync(
+        int timeoutMs = 30000,
+        CancellationToken cancellationToken = default
+    )
     {
-        await _locator.WaitForAsync(new LocatorWaitForOptions
-        {
-            State = WaitForSelectorState.Visible,
-            Timeout = timeoutMs
-        });
+        await locator.WaitForAsync(
+            new LocatorWaitForOptions { State = WaitForSelectorState.Visible, Timeout = timeoutMs }
+        );
     }
 }

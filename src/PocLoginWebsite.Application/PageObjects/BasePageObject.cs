@@ -6,19 +6,9 @@ namespace PocLoginWebsite.Application.PageObjects;
 /// Abstract base class for all page objects.
 /// Provides common functionality for page interactions following the Page Object Model pattern.
 /// </summary>
-public abstract class BasePageObject
+public abstract class BasePageObject(IPagePort page)
 {
-    protected readonly IPagePort Page;
-
-    protected BasePageObject(IPagePort page)
-    {
-        Page = page;
-    }
-
-    /// <summary>
-    /// Navigates to the page URL.
-    /// </summary>
-    public abstract Task NavigateAsync(CancellationToken cancellationToken = default);
+    protected readonly IPagePort Page = page;
 
     /// <summary>
     /// Verifies that the page is loaded correctly.
@@ -29,9 +19,16 @@ public abstract class BasePageObject
     /// Takes a screenshot of the current page.
     /// </summary>
     /// <param name="fileName">Name of the screenshot file.</param>
-    protected async Task TakeScreenshotAsync(string fileName, CancellationToken cancellationToken = default)
+    /// <param name="cancellationToken"></param>
+    protected async Task TakeScreenshotAsync(
+        string fileName,
+        CancellationToken cancellationToken = default
+    )
     {
-        var screenshotPath = Path.Combine("screenshots", $"{fileName}_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+        var screenshotPath = Path.Combine(
+            "screenshots",
+            $"{fileName}_{DateTime.Now:yyyyMMdd_HHmmss}.png"
+        );
         Directory.CreateDirectory("screenshots");
         await Page.ScreenshotAsync(screenshotPath, cancellationToken);
     }
@@ -39,7 +36,10 @@ public abstract class BasePageObject
     /// <summary>
     /// Waits for the page to be ready.
     /// </summary>
-    protected async Task WaitForPageReadyAsync(int timeoutMs = 30000, CancellationToken cancellationToken = default)
+    protected async Task WaitForPageReadyAsync(
+        int timeoutMs = 30000,
+        CancellationToken cancellationToken = default
+    )
     {
         // Override in derived classes if needed
         await Task.CompletedTask;

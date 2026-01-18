@@ -1,11 +1,10 @@
-using NUnit.Framework;
 using PocLoginWebsite.Application.Services;
 using PocLoginWebsite.Core.Ports;
 using PocLoginWebsite.Infrastructure.Adapters;
 using PocLoginWebsite.Infrastructure.Configuration;
 using PocLoginWebsite.Infrastructure.PageObjects;
 
-namespace PocLoginWebsite.Tests;
+namespace PocLoginWebsite.Tests.Fixtures;
 
 /// <summary>
 /// Base class for all test fixtures.
@@ -38,12 +37,9 @@ public abstract class BaseTestFixture
     {
         // Clean up browser resources
         await TestOrchestrator.CleanupAsync();
-        
+
         // Dispose browser port
-        if (BrowserPort != null)
-        {
-            await BrowserPort.DisposeAsync();
-        }
+        await BrowserPort.DisposeAsync();
     }
 
     /// <summary>

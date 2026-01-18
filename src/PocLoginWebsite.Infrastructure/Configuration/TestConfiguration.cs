@@ -8,22 +8,17 @@ namespace PocLoginWebsite.Infrastructure.Configuration;
 /// </summary>
 public class TestConfiguration : IConfigurationPort
 {
-    private readonly Dictionary<string, string> _configuration;
-
-    public TestConfiguration()
+    private readonly Dictionary<string, string> _configuration = new()
     {
-        _configuration = new Dictionary<string, string>
-        {
-            { "BaseUrl", "https://example.com" },
-            { "DefaultTimeout", "30000" },
-            { "Headless", "true" },
-            { "BrowserType", "chromium" }
-        };
-    }
+        { "BaseUrl", "https://example.com" },
+        { "DefaultTimeout", "30000" },
+        { "Headless", "true" },
+        { "BrowserType", "chromium" },
+    };
 
     public string? GetValue(string key)
     {
-        return _configuration.TryGetValue(key, out var value) ? value : null;
+        return _configuration.GetValueOrDefault(key);
     }
 
     public T GetValue<T>(string key, T defaultValue)
@@ -48,12 +43,4 @@ public class TestConfiguration : IConfigurationPort
     public bool Headless => GetValue("Headless", true);
 
     public string BrowserType => GetValue("BrowserType") ?? "chromium";
-
-    /// <summary>
-    /// Sets a configuration value (useful for testing or runtime configuration).
-    /// </summary>
-    public void SetValue(string key, string value)
-    {
-        _configuration[key] = value;
-    }
 }

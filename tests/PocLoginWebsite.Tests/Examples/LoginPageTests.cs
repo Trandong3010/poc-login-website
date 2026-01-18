@@ -1,6 +1,6 @@
-using NUnit.Framework;
 using PocLoginWebsite.Core.Ports;
 using PocLoginWebsite.Infrastructure.PageObjects;
+using PocLoginWebsite.Tests.Fixtures;
 
 namespace PocLoginWebsite.Tests.Examples;
 

@@ -26,11 +26,6 @@ public class TestResult
     public TimeSpan Duration { get; set; }
 
     /// <summary>
-    /// Gets or sets any screenshots captured during the test.
-    /// </summary>
-    public List<string> Screenshots { get; set; } = new();
-
-    /// <summary>
     /// Creates a successful test result.
     /// </summary>
     public static TestResult Passed(string message = "Test passed", TimeSpan? duration = null)
@@ -39,21 +34,25 @@ public class TestResult
         {
             Success = true,
             Message = message,
-            Duration = duration ?? TimeSpan.Zero
+            Duration = duration ?? TimeSpan.Zero,
         };
     }
 
     /// <summary>
     /// Creates a failed test result.
     /// </summary>
-    public static TestResult Failed(string message, Exception? exception = null, TimeSpan? duration = null)
+    public static TestResult Failed(
+        string message,
+        Exception? exception = null,
+        TimeSpan? duration = null
+    )
     {
         return new TestResult
         {
             Success = false,
             Message = message,
             Exception = exception,
-            Duration = duration ?? TimeSpan.Zero
+            Duration = duration ?? TimeSpan.Zero,
         };
     }
 }

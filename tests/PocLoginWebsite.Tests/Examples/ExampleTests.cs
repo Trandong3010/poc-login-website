@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using PocLoginWebsite.Core.Ports;
+using PocLoginWebsite.Tests.Fixtures;
 
 namespace PocLoginWebsite.Tests.Examples;
 
@@ -40,9 +40,12 @@ public class ExampleTests : BaseTestFixture
         var title = await _page.GetTitleAsync();
         var currentUrl = await _page.GetUrlAsync();
 
-        // Assert
-        Assert.That(title, Is.Not.Empty, "Page title should not be empty");
-        Assert.That(currentUrl, Does.Contain("example.com"), "URL should contain example.com");
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(title, Is.Not.Empty, "Page title should not be empty");
+            Assert.That(currentUrl, Does.Contain("example.com"), "URL should contain example.com");
+        });
     }
 
     [Test]
@@ -56,9 +59,12 @@ public class ExampleTests : BaseTestFixture
         var isVisible = await element.IsVisibleAsync();
         var text = await element.GetTextAsync();
 
-        // Assert
-        Assert.That(isVisible, Is.True, "H1 element should be visible");
-        Assert.That(text, Is.Not.Empty, "H1 text should not be empty");
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(isVisible, Is.True, "H1 element should be visible");
+            Assert.That(text, Is.Not.Empty, "H1 text should not be empty");
+        });
     }
 
     [Test]

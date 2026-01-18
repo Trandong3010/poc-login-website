@@ -7,31 +7,31 @@ namespace PocLoginWebsite.Infrastructure.PageObjects;
 /// Example page object for a login page.
 /// Demonstrates how to implement concrete page objects using the base class.
 /// </summary>
-public class LoginPageObject : BasePageObject
+public class LoginPageObject(IPagePort page, IConfigurationPort configuration)
+    : BasePageObject(page)
 {
-    private readonly IConfigurationPort _configuration;
-
     // Selectors
     private const string UsernameInputSelector = "#username";
     private const string PasswordInputSelector = "#password";
     private const string LoginButtonSelector = "button[type='submit']";
     private const string ErrorMessageSelector = ".error-message";
 
-    public LoginPageObject(IPagePort page, IConfigurationPort configuration) : base(page)
+    public virtual async Task NavigateAsync(CancellationToken cancellationToken = default)
     {
-        _configuration = configuration;
+        await Page.GotoAsync($"{configuration.BaseUrl}/login", cancellationToken);
     }
 
-    public override async Task NavigateAsync(CancellationToken cancellationToken = default)
-    {
-        await Page.GotoAsync($"{_configuration.BaseUrl}/login", cancellationToken);
-    }
-
-    public override async Task<bool> IsPageLoadedAsync(CancellationToken cancellationToken = default)
+    public override async Task<bool> IsPageLoadedAsync(
+        CancellationToken cancellationToken = default
+    )
     {
         try
         {
-            await Page.WaitForSelectorAsync(UsernameInputSelector, _configuration.DefaultTimeout, cancellationToken);
+            await Page.WaitForSelectorAsync(
+                UsernameInputSelector,
+                configuration.DefaultTimeout,
+                cancellationToken
+            );
             return true;
         }
         catch
@@ -40,7 +40,11 @@ public class LoginPageObject : BasePageObject
         }
     }
 
-    public async Task LoginAsync(string username, string password, CancellationToken cancellationToken = default)
+    public async Task LoginAsync(
+        string username,
+        string password,
+        CancellationToken cancellationToken = default
+    )
     {
         var usernameInput = await Page.GetElementAsync(UsernameInputSelector, cancellationToken);
         await usernameInput.FillAsync(username, cancellationToken);
@@ -63,11 +67,5 @@ public class LoginPageObject : BasePageObject
         {
             return null;
         }
-    }
-
-    public async Task<bool> IsUsernameInputVisibleAsync(CancellationToken cancellationToken = default)
-    {
-        var element = await Page.GetElementAsync(UsernameInputSelector, cancellationToken);
-        return await element.IsVisibleAsync(cancellationToken);
     }
 }

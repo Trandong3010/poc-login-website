@@ -13,15 +13,25 @@ public class PlaywrightBrowserAdapter : IBrowserPort
     private IBrowser? _browser;
     private IBrowserContext? _context;
 
-    public async Task LaunchAsync(string browserType = "chromium", bool headless = true, CancellationToken cancellationToken = default)
+    public async Task LaunchAsync(
+        string browserType = "chromium",
+        bool headless = true,
+        CancellationToken cancellationToken = default
+    )
     {
         _playwright = await Playwright.CreateAsync();
 
         _browser = browserType.ToLower() switch
         {
-            "firefox" => await _playwright.Firefox.LaunchAsync(new BrowserTypeLaunchOptions { Headless = headless }),
-            "webkit" => await _playwright.Webkit.LaunchAsync(new BrowserTypeLaunchOptions { Headless = headless }),
-            _ => await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = headless })
+            "firefox" => await _playwright.Firefox.LaunchAsync(
+                new BrowserTypeLaunchOptions { Headless = headless }
+            ),
+            "webkit" => await _playwright.Webkit.LaunchAsync(
+                new BrowserTypeLaunchOptions { Headless = headless }
+            ),
+            _ => await _playwright.Chromium.LaunchAsync(
+                new BrowserTypeLaunchOptions { Headless = headless }
+            ),
         };
 
         _context = await _browser.NewContextAsync();
@@ -30,7 +40,11 @@ public class PlaywrightBrowserAdapter : IBrowserPort
     public async Task<IPagePort> NewPageAsync(CancellationToken cancellationToken = default)
     {
         if (_context == null)
-            throw new InvalidOperationException("Browser context is not initialized. Call LaunchAsync first.");
+        {
+            throw new InvalidOperationException(
+                "Browser context is not initialized. Call LaunchAsync first."
+            );
+        }
 
         var page = await _context.NewPageAsync();
         return new PlaywrightPageAdapter(page);
