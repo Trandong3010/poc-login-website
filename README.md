@@ -92,36 +92,43 @@ PocLoginWebsite/
 2. **Restore dependencies**
 
    ```powershell
-   dotnet restore PocLoginWebsite.sln
+   dotnet restore Run.sln
    ```
 
 3. **Build the solution**
 
    ```powershell
-   dotnet build PocLoginWebsite.sln
+   dotnet build Run.sln
    ```
 
 4. **Install Playwright browsers**
 
-   ```powershell
-   # Navigate to the output directory
-   cd tests\PocLoginWebsite.Tests\bin\Debug\net8.0
+   After building the project, install the required Playwright browsers:
 
-   # Install browsers
-   pwsh playwright.ps1 install
+   ```powershell
+   # Option 1: Using PowerShell (recommended for Windows)
+   powershell -File tests\PocLoginWebsite.Tests\bin\Debug\net9.0\playwright.ps1 install
+
+   # Option 2: If you have PowerShell Core installed
+   pwsh tests\PocLoginWebsite.Tests\bin\Debug\net9.0\playwright.ps1 install
    ```
+
+   > **Note**: This step is required only once after the first build or when Playwright is updated.
 
 ### Running Tests
 
 ```powershell
 # Run all tests
-dotnet test PocLoginWebsite.sln
+dotnet test Run.sln
 
 # Run tests with detailed output
-dotnet test PocLoginWebsite.sln --verbosity normal
+dotnet test Run.sln --verbosity normal
 
 # Run specific test class
 dotnet test --filter "FullyQualifiedName~PocLoginWebsite.Tests.Examples.ExampleTests"
+
+# Run tests from a specific project
+dotnet test tests/PocLoginWebsite.Tests/PocLoginWebsite.Tests.csproj
 ```
 
 ## ðŸ“– Usage Examples

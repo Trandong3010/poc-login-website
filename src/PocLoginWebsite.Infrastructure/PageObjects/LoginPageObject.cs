@@ -10,15 +10,15 @@ namespace PocLoginWebsite.Infrastructure.PageObjects;
 public class LoginPageObject(IPagePort page, IConfigurationPort configuration)
     : BasePageObject(page)
 {
-    // Selectors
-    private const string UsernameInputSelector = "#username";
+    // Selectors for SauceDemo website
+    private const string UsernameInputSelector = "#user-name";
     private const string PasswordInputSelector = "#password";
-    private const string LoginButtonSelector = "button[type='submit']";
-    private const string ErrorMessageSelector = ".error-message";
+    private const string LoginButtonSelector = "#login-button";
+    private const string ErrorMessageSelector = "[data-test='error']";
 
     public virtual async Task NavigateAsync(CancellationToken cancellationToken = default)
     {
-        await Page.GotoAsync($"{configuration.BaseUrl}/login", cancellationToken);
+        await Page.GotoAsync(configuration.BaseUrl, cancellationToken);
     }
 
     public override async Task<bool> IsPageLoadedAsync(

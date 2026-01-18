@@ -11,7 +11,7 @@ public class PlaywrightPageAdapter(IPage page) : IPagePort
 {
     public async Task GotoAsync(string url, CancellationToken cancellationToken = default)
     {
-        await page.GotoAsync(url);
+        await page.GotoAsync(url, new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle });
     }
 
     public async Task<string> GetTitleAsync(CancellationToken cancellationToken = default)
@@ -32,7 +32,11 @@ public class PlaywrightPageAdapter(IPage page) : IPagePort
     {
         await page.WaitForSelectorAsync(
             selector,
-            new PageWaitForSelectorOptions { Timeout = timeoutMs }
+            new PageWaitForSelectorOptions
+            {
+                Timeout = timeoutMs,
+                State = WaitForSelectorState.Visible
+            }
         );
     }
 
