@@ -54,6 +54,11 @@ public class PlaywrightPageAdapter(IPage page) : IPagePort
         return Task.FromResult<IElementPort>(new PlaywrightElementAdapter(locator));
     }
 
+    public async Task<T> EvaluateAsync<T>(string script, CancellationToken cancellationToken = default)
+    {
+        return await page.EvaluateAsync<T>(script);
+    }
+
     public async Task CloseAsync(CancellationToken cancellationToken = default)
     {
         await page.CloseAsync();

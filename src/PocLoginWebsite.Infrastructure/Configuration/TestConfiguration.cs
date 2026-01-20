@@ -12,7 +12,7 @@ public class TestConfiguration : IConfigurationPort
     {
         { "BaseUrl", "https://example.com" },
         { "DefaultTimeout", "30000" },
-        { "Headless", "true" },
+        { "Headless", "false" },
         { "BrowserType", "chromium" },
     };
 

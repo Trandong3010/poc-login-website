@@ -11,8 +11,10 @@ public interface IBrowserPort : IAsyncDisposable
     /// </summary>
     /// <param name="browserType">Type of browser to launch (chromium, firefox, webkit).</param>
     /// <param name="headless">Whether to run the browser in headless mode.</param>
+    /// <param name="stealthOptions">Optional stealth configuration for anti-detection.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    Task LaunchAsync(string browserType = "chromium", bool headless = true, CancellationToken cancellationToken = default);
+    Task LaunchAsync(string browserType = "chromium", bool headless = true,
+        Models.StealthOptions? stealthOptions = null, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a new browser context with optional configuration.

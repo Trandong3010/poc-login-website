@@ -46,6 +46,15 @@ public interface IPagePort : IAsyncDisposable
     Task<IElementPort> GetElementAsync(string selector, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Evaluates JavaScript in the page context and returns the result.
+    /// </summary>
+    /// <typeparam name="T">The expected return type.</typeparam>
+    /// <param name="script">JavaScript code to evaluate.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The result of the JavaScript evaluation.</returns>
+    Task<T> EvaluateAsync<T>(string script, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Closes the current page.
     /// </summary>
     Task CloseAsync(CancellationToken cancellationToken = default);
