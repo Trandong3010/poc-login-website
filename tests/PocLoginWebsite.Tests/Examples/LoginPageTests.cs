@@ -59,6 +59,21 @@ public class LoginPageTests : BaseTestFixture
 
         // Assert
         Assert.That(errorMessage, Is.Null, "Should not display error message on successful login");
+
+        var screenshotPath = Path.Combine("screenshots", "example_test.png");
+        Directory.CreateDirectory("screenshots");
+
+        // Act
+        await _page.ScreenshotAsync(screenshotPath);
+
+        // Assert
+        Assert.That(File.Exists(screenshotPath), Is.True, "Screenshot file should exist");
+
+        // Cleanup
+        if (File.Exists(screenshotPath))
+        {
+            File.Delete(screenshotPath);
+        }
     }
 
     [Test]
@@ -78,5 +93,20 @@ public class LoginPageTests : BaseTestFixture
 
         // Assert
         Assert.That(errorMessage, Is.Not.Null, "Should display error message on failed login");
+
+        var screenshotPath = Path.Combine("screenshots", "example_test.png");
+        Directory.CreateDirectory("screenshots");
+
+        // Act
+        await _page.ScreenshotAsync(screenshotPath);
+
+        // Assert
+        Assert.That(File.Exists(screenshotPath), Is.True, "Screenshot file should exist");
+
+        // Cleanup
+        if (File.Exists(screenshotPath))
+        {
+            File.Delete(screenshotPath);
+        }
     }
 }
